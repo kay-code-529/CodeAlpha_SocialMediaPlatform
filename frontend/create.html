@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SocialApp · New Post</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav id="nav" class="nav"></nav>
+  <main class="container narrow">
+    <form id="post-form" class="card">
+      <h1>New post</h1>
+      <div id="error" class="error-text" style="display:none"></div>
+      <label>What's on your mind?<textarea name="content" rows="4" required></textarea></label>
+      <label>Image URL (optional)<input type="url" name="image_url"></label>
+      <button type="submit" class="btn">Post</button>
+    </form>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/post.js"></script>
+</body>
+</html>

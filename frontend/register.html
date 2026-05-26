@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SocialApp · Register</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav id="nav" class="nav"></nav>
+  <main class="container narrow">
+    <form id="register-form" class="card">
+      <h1>Create account</h1>
+      <div id="error" class="error-text" style="display:none"></div>
+      <label>Username<input type="text" name="username" required></label>
+      <label>Email<input type="email" name="email" required></label>
+      <label>Password<input type="password" name="password" minlength="6" required></label>
+      <button type="submit" class="btn">Register</button>
+      <p class="muted">Have an account? <a href="login.html">Login</a></p>
+    </form>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
