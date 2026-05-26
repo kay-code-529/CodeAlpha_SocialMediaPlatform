@@ -1,10 +1,9 @@
-const express  = require('express')
-const router   = express.Router()
-const supabase = require('../supabase')
+const express = require('express')
+const router = express.Router()
 
 // GET profile by user id
 router.get('/:id', async (req, res) => {
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('profiles')
     .select('*')
     .eq('id', req.params.id)
@@ -18,7 +17,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   const { id, username, bio, avatar_url } = req.body
 
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('profiles')
     .insert([{ id, username, bio, avatar_url }])
     .select()
@@ -32,7 +31,7 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
   const { username, bio, avatar_url } = req.body
 
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('profiles')
     .update({ username, bio, avatar_url })
     .eq('id', req.params.id)

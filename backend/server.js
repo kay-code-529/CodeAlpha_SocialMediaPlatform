@@ -1,12 +1,21 @@
 const express = require('express')
 const cors = require('cors')
 const path = require('path')
+const { clientFromToken } = require('./supabase')
 require('dotenv').config()
 
 const app = express()
 
 app.use(cors({ origin: '*' }))
 app.use(express.json())
+
+// give every API request a Supabase client scoped to the caller's token
+app.use('/api', (req, res, next) => {
+  const header = req.headers.authorization || ''
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null
+  req.db = clientFromToken(token)
+  next()
+})
 
 app.use('/api/posts', require('./routes/posts'))
 app.use('/api/comments', require('./routes/comments'))

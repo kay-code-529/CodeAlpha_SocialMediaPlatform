@@ -20,9 +20,15 @@ async function requireAuth() {
 }
 
 async function api(path, options = {}) {
+  const { data } = await sb.auth.getSession()
+  const token = data.session?.access_token
   const res = await fetch(API + path, {
-    headers: { 'Content-Type': 'application/json' },
     ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: 'Bearer ' + token } : {}),
+      ...(options.headers || {}),
+    },
   })
   const body = await res.json().catch(() => ({}))
   if (!res.ok) throw new Error(body.error || 'Request failed')

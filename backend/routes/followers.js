@@ -1,10 +1,9 @@
-const express  = require('express')
-const router   = express.Router()
-const supabase = require('../supabase')
+const express = require('express')
+const router = express.Router()
 
 // GET followers of a user
 router.get('/:userId', async (req, res) => {
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('followers')
     .select('*')
     .eq('following_id', req.params.userId)
@@ -17,7 +16,7 @@ router.get('/:userId', async (req, res) => {
 router.post('/', async (req, res) => {
   const { follower_id, following_id } = req.body
 
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('followers')
     .insert([{ follower_id, following_id }])
     .select()
@@ -31,7 +30,7 @@ router.post('/', async (req, res) => {
 router.delete('/', async (req, res) => {
   const { follower_id, following_id } = req.body
 
-  const { error } = await supabase
+  const { error } = await req.db
     .from('followers')
     .delete()
     .eq('follower_id', follower_id)

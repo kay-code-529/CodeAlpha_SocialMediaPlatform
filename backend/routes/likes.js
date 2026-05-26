@@ -1,10 +1,9 @@
-const express  = require('express')
-const router   = express.Router()
-const supabase = require('../supabase')
+const express = require('express')
+const router = express.Router()
 
 // GET likes count for a post
 router.get('/:postId', async (req, res) => {
-  const { data, error, count } = await supabase
+  const { data, error, count } = await req.db
     .from('likes')
     .select('*', { count: 'exact' })
     .eq('post_id', req.params.postId)
@@ -17,7 +16,7 @@ router.get('/:postId', async (req, res) => {
 router.post('/', async (req, res) => {
   const { user_id, post_id } = req.body
 
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('likes')
     .insert([{ user_id, post_id }])
     .select()
@@ -31,7 +30,7 @@ router.post('/', async (req, res) => {
 router.delete('/', async (req, res) => {
   const { user_id, post_id } = req.body
 
-  const { error } = await supabase
+  const { error } = await req.db
     .from('likes')
     .delete()
     .eq('user_id', user_id)

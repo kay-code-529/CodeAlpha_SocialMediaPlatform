@@ -1,10 +1,9 @@
-const express  = require('express')
-const router   = express.Router()
-const supabase = require('../supabase')
+const express = require('express')
+const router = express.Router()
 
 // GET all posts (newest first)
 router.get('/', async (req, res) => {
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('posts')
     .select('*')
     .order('created_at', { ascending: false })
@@ -15,7 +14,7 @@ router.get('/', async (req, res) => {
 
 // GET single post
 router.get('/:id', async (req, res) => {
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('posts')
     .select('*')
     .eq('id', req.params.id)
@@ -27,7 +26,7 @@ router.get('/:id', async (req, res) => {
 
 // GET posts by user
 router.get('/user/:userId', async (req, res) => {
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('posts')
     .select('*')
     .eq('user_id', req.params.userId)
@@ -43,7 +42,7 @@ router.post('/', async (req, res) => {
 
   if (!content) return res.status(400).json({ error: 'Content is required' })
 
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('posts')
     .insert([{ user_id, username, content, image_url }])
     .select()
@@ -55,7 +54,7 @@ router.post('/', async (req, res) => {
 
 // DELETE a post
 router.delete('/:id', async (req, res) => {
-  const { error } = await supabase
+  const { error } = await req.db
     .from('posts')
     .delete()
     .eq('id', req.params.id)

@@ -1,10 +1,9 @@
-const express  = require('express')
-const router   = express.Router()
-const supabase = require('../supabase')
+const express = require('express')
+const router = express.Router()
 
 // GET comments for a post
 router.get('/:postId', async (req, res) => {
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('comments')
     .select('*')
     .eq('post_id', req.params.postId)
@@ -20,7 +19,7 @@ router.post('/', async (req, res) => {
 
   if (!content) return res.status(400).json({ error: 'Comment cannot be empty' })
 
-  const { data, error } = await supabase
+  const { data, error } = await req.db
     .from('comments')
     .insert([{ user_id, post_id, username, content }])
     .select()
